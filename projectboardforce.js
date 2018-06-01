@@ -1,22 +1,22 @@
 /* Created by Mark Kevin Mapacpac */
 var canvas = document.getElementById("mycanvas");
 var context = canvas.getContext("2d");
-console.log("canvas : " + canvas);
-console.log("context : " + context);
+console.log("Hi World2");
+var dragStartLocation;
+
 
 var colors2 = ["white"];
 color1 = document.getElementById("color1").value;
 color2 = document.getElementById("color2").value;
 color3 = document.getElementById("color3").value;
-console.log("colors selection: " + color1 + " " + color2 + " " + color3);
+
 colors2.push(color1);
 colors2.push(color2);
 colors2.push(color3);
-console.log("colors array" + colors2);
 
 var radius = 7;
 var dragging = false;
-
+var createLine = true;
 context.lineWidth = radius*2;
 context.fillStyle = "white";
 context.fillRect(0, 0, canvas.width, canvas.height);

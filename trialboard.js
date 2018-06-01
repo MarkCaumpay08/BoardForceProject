@@ -3,7 +3,7 @@ var canvas = document.getElementById("canvasBoard");
 var context = canvas.getContext("2d");
 var dragging, dragStartLocation, snapshot, shape;
 
-shape = 'ellipse';
+shape = 'line';
 //initialization
 context.strokeStyle = 'black';
 context.lineWidth = 5;
@@ -17,10 +17,17 @@ function getCanvasCoordinates(event) {
 }
 
 function drawLine(position) {
+	/*
 	context.beginPath();
     context.moveTo(dragStartLocation.x, dragStartLocation.y);
     context.lineTo(position.x, position.y);
     context.stroke();
+	*/
+	context.lineTo(position.x, position.y);
+    context.stroke();
+    context.beginPath();
+    context.beginPath();
+    context.moveTo(position.x, position.y);
 }
 
 function drawCircle(position) {
@@ -58,20 +65,26 @@ function restoreSnapshot() {
 function engage(event){
     
     dragging = true;
-    dragStartLocation = getCanvasCoordinates(event);
-	takeSnapshot();
+	dragStartLocation = getCanvasCoordinates(event);
+	if(shape != 'line'){
+		takeSnapshot();
+	}
 }
 
 function disengage(event) {
     
     dragging = false;
-	restoreSnapshot();
+	
 	var position = getCanvasCoordinates(event);
 	if(shape=="rectangle"){
+		restoreSnapshot();
 		drawRectangle(position);
 	}else if(shape == "ellipse"){
+		restoreSnapshot();
 		drawCircle(position);
-	}
+	}else if(shape == "line"){
+			context.beginPath();
+    }
     //drawLine(position);
 
 }
@@ -79,12 +92,16 @@ function disengage(event) {
 function drag(event) {
     var position;
     if (dragging === true) {
-		restoreSnapshot();
+		
         position = getCanvasCoordinates(event);
 		if(shape=="rectangle"){
+			restoreSnapshot();
 			drawRectangle(position);
 		}else if(shape == "ellipse"){
+			restoreSnapshot();
 			drawCircle(position);
+		}else if(shape == "line"){
+			drawLine(position);
 		}
 		//drawLine(position);
     }
@@ -125,4 +142,4 @@ colorPanel();
 canvas.addEventListener('mousedown', engage);
 canvas.addEventListener('mousemove', drag);
 canvas.addEventListener('mouseup', disengage);
-canvas.addEventListener('mouseout',disengage);
+//canvas.addEventListener('mouseout',disengage);
